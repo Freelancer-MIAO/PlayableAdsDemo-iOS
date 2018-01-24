@@ -171,9 +171,10 @@ There may be a http link in the ad. To remedy, please add following codes in inf
 ```
 ### 5.3 Request Ads ASAP
 To ensure the ad resource can be successfully loaded, it’s encouraged to request ads as soon as possible.
-### 5.4 Permissions
-Make sure your app was granted Phone State permission and Storage Permission, otherwise there may be no ads in your app.
-### 5.5 Request Next Ad
-* Request failed: Reload in onLoadFailed () method, please determine the reason for the failure, to avoid looping onLoadFailed () method. For example, if there is no network, the onLoadFailed () method will be executed. If you request the next advertisement immediately, advertisement will request failed continuously, causing a waste of resources.
+### 5.4 Request Next Ad
+* When an ad is completed or a request fails, the SDK will try to request the next ad automatically. If this request fails, it will retry in 5 seconds.
 
-* Ad displayed completely: Request again in the playableAdsIncentive () method. Ads can not be requested in the onVideoFinished () method, ads are still in a filled state when the onVideoFinished () method is executed, and ads will not be requested again.
+* If you want to request the next ad manually, you can set ```playableAd.autoload = NO``` to disable auto-request. And this is the default setting.
+### 5.5 Interstitial and Rewarded Video
+* From v2.0.1, you can choose to act as interstitial or rewarded videos when you apply the ad placement id. If you act as interstitials, the ad can be terminated during playing and no rewards will be given. If you act as rewarded videos, the ad can't be terminated during playing, and a reward will be given after completed.
+* For interstitials, all the methods are just the same with rewarded videos, except for ```(void)playableAdsDidRewardUser:(PlayableAds *)ads```, which won't be triggered.
